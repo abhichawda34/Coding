@@ -1,0 +1,40 @@
+Given a set of distinct integers, print the size of a maximal subset of S where the sum of any numbers in S is not evenly divisible by k.
+
+Sample Input
+
+4 3
+1 7 2 4
+
+Sample Output
+
+3
+
+Explanation
+
+The sums of all permutations of two elements from {1,7,2,4}
+
+are:
+
+1 + 7 = 8
+1 + 2 = 3
+1 + 4 = 5
+7 + 2 = 9
+7 + 4 = 11
+2 + 4 = 6
+
+We see that only S={1,7,4}
+will not ever sum to a multiple of k=3
+
+
+Solution
+int nonDivisibleSubset(int k, vector<int> s) {
+    vector<int> freq(k,0);
+    for(int i=0;i<s.size();i++)
+        freq[s[i]%k]++;
+    if(k%2==0)
+        freq[k/2]=min(freq[k/2],1);
+    int ans=min(freq[0],1);
+    for(int i=1;i<=k/2;i++)
+        ans+=max(freq[i],freq[k-i]);
+    return ans;
+}
